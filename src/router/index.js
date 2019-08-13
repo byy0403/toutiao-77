@@ -4,6 +4,7 @@ import Login from '@/views/login'
 import Home from '@/views/home'
 import Welcome from '@/views/welcome'
 import store from '@/store'
+import Article from '@/views/article'
 Vue.use(VueRouter)
 var router = new VueRouter({
   routes: [
@@ -20,6 +21,11 @@ var router = new VueRouter({
           path: '/',
           name: 'Welcome',
           component: Welcome
+        },
+        {
+          path: '/article',
+          name: 'Article',
+          component: Article
         }
       ]
     }

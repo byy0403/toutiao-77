@@ -2,9 +2,19 @@
 import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
-
+import JSONBig from 'json-bigint'
 // 进行配置
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
+axios.defaults.transformResponse = [
+  (data) => {
+    try {
+      return JSONBig.parse(data)
+    } catch (error) {
+      return data
+    }
+  }
+]
+
 // 添加请求拦截器
 axios.interceptors.request.use((config) => {
   config.headers = {
