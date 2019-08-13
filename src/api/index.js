@@ -7,9 +7,9 @@ import router from '@/router'
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
 // 添加请求拦截器
 axios.interceptors.request.use((config) => {
-  config.headers = [{
+  config.headers = {
     Authorization: `Bearer ${store.getUser().token}`
-  }]
+  }
   // 在发送请求之前做些什么
   return config
 }, function (error) {
@@ -18,12 +18,12 @@ axios.interceptors.request.use((config) => {
 })
 
 // 添加响应拦截器
-axios.interceptors.response.use((response) => {
+axios.interceptors.response.use((res) => {
   // 对响应数据做点什么
-  return response
-}, (error) => {
+  return res
+}, (err) => {
   // 对响应错误做点什么
-  if (error.response.status === 401) {
+  if (err.response.status === 401) {
     return router.push('/login')
   }
 })

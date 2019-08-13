@@ -15,7 +15,7 @@
           <el-button>发送验证码</el-button>
         </el-form-item>
         <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
-        <el-button @click="login" type="primary" style="width:100% ;margin-top:30px">登录</el-button>
+        <el-button @click="login()" type="primary" style="width:100% ;margin-top:30px">登录</el-button>
       </el-form>
     </el-card>
   </div>
@@ -45,30 +45,42 @@ export default {
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { len: 6, message: '验证码长度为6位', trigger: 'blur' }
+          { len: 6, message: '长度是6位', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    login (loginForm) {
-      // 对整个表单进行校验
-      this.$refs.loginForm.validate(async val => {
-        if (val) {
+    login () {
+      this.$refs.loginForm.validate(async valid => {
+        if (valid) {
+          console.log(valid)
           try {
             const {
               data: { data }
-            } = await this.$http.post(
-              'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
-              this.loginForm
-            )
-            this.$router.push('/')
+            } = await this.$http.post('authorizations', this.loginForm)
             store.setUser(data)
+            this.$router.push('/')
           } catch (error) {
-            // console.log(error)
-            this.$message.error('手机号或验证码输入错误')
+            console.log(error)
+            this.$message.error('手机号或验证码错误')
           }
+          //   axios
+          //     .post('authorizations', this.loginForm)
+          //     .then(res => {
+          //       // res 响应对象   包含响应主体
+          //       // console.log(res.data)
+          //       // 存储用户信息
+          //       store.setUser(res.data.data)
+          //       // 跳转去首页
+          //       this.$router.push('/')
+          //     })
+          //     .catch(() => {
+          //       // 错误提示提示
+          //       this.$message.error('手机号或验证码错误')
+          //     })
         }
+        // async&await使用  怎么处理错误 try{}catch(e){} 捕获异常
       })
     }
   }

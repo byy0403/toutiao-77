@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '@/views/login'
 import Home from '@/views/home'
 import Welcome from '@/views/welcome'
-import store from '@/views/store'
+import store from '@/store'
 Vue.use(VueRouter)
 var router = new VueRouter({
   routes: [
